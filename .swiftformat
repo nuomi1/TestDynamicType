@@ -1,0 +1,22 @@
+--disable blankLinesAtStartOfScope
+--disable initCoderUnavailable
+--disable wrapMultilineStatementBraces
+
+--exclude **/Carthage
+--exclude **/Pods
+--exclude **/*.generated.swift
+
+--extensionacl on-declarations
+
+--stripunusedargs closure-only
+--swiftversion 5.0
+
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--wrapconditions before-first
+
+--computedvarattrs prev-line
+--funcattributes prev-line
+--storedvarattrs prev-line
+--typeattributes prev-line

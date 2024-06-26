@@ -1,2 +1,3 @@
 [tools]
-tuist = "4.17.0"
+tuist = "latest"
+swiftformat = "latest"
