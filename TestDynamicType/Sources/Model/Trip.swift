@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 @Model
-final class Trip: Identifiable {
+final class Trip: Identifiable, Hashable {
 
     typealias ID = UUID
     typealias Color = CodableColor

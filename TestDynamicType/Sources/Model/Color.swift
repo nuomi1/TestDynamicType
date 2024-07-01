@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct CodableColor: Codable {
+struct CodableColor: Codable, Hashable {
     var red: Double
     var green: Double
     var blue: Double

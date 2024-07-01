@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Comment: Identifiable {
+final class Comment: Identifiable, Hashable {
 
     typealias ID = UUID
 
@@ -44,7 +44,7 @@ final class Comment: Identifiable {
 
 extension Comment {
 
-    enum Reaction: Codable {
+    enum Reaction: Codable, Hashable {
         case none
         case favorite
         case superFavorite
@@ -64,7 +64,7 @@ extension Comment {
 
 extension Comment {
 
-    struct Reply: Identifiable, Codable {
+    struct Reply: Identifiable, Codable, Hashable {
 
         typealias ID = UUID
 

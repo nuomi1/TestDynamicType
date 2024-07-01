@@ -18,6 +18,10 @@ struct TestDynamicTypeApp: App {
                 TripTabContentView(configuration: Constants.Tab.swiftUI) { trip in
                     SwiftUITripDetailView(trip: trip)
                 }
+
+                TripTabContentView(configuration: Constants.Tab.uiKit) { trip in
+                    UIKitTripDetailView(trip: trip)
+                }
             }
         }
         .modelContainer(for: [Trip.self])
