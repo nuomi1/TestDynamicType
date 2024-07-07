@@ -14,26 +14,19 @@ struct UIKitTripDetailView: View {
     let trip: Trip?
 
     var body: some View {
-        UIKitTripDetailViewControllerRepresentable(trip: trip)
+        AnyUIRepresentableViewController(configuration: configuration(trip: trip))
     }
-}
 
-extension UIKitTripDetailView {
-
-    struct UIKitTripDetailViewControllerRepresentable: UIViewControllerRepresentable {
-
-        typealias UIViewControllerType = UIKitTripDetailViewController
-
-        let trip: Trip?
-
-        func makeUIViewController(context: Context) -> UIViewControllerType {
-            .init(trip: trip)
-        }
-
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-            uiViewController.trip = trip
-            uiViewController.applySnapshot()
-        }
+    private func configuration(trip: Trip?) -> AnyUIRepresentableViewController<UIKitTripDetailViewController>.Configuration {
+        .init(
+            makeUIViewController: { _ in
+                UIKitTripDetailViewController(trip: trip)
+            },
+            updateUIViewController: { uiViewController, _ in
+                uiViewController.trip = trip
+                uiViewController.applySnapshot()
+            }
+        )
     }
 }
 
