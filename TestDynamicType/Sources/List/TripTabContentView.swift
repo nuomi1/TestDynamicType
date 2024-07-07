@@ -30,20 +30,10 @@ struct TripTabContentView<Detail: View>: View {
     }
 
     var body: some View {
-        NavigationSplitView {
+        TabContentView(configuration: configuration) {
             TripListView(trips: trips, selectedTrip: $selectedTrip)
-                .navigationTitle(configuration.navigationTitle)
         } detail: {
             detail(selectedTrip)
         }
-        .tabItem {
-            Label(configuration.tabTitle, systemImage: configuration.tabIcon)
-        }
     }
-}
-
-struct TabContentViewConfiguration: Hashable {
-    var tabTitle: String
-    var tabIcon: String
-    var navigationTitle: String
 }
