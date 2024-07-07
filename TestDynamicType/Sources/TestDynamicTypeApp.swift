@@ -18,15 +18,25 @@ struct TestDynamicTypeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // tabView
+            figureTabView
 
-            text
+            // tripTabView
         }
         .modelContainer(for: [Trip.self])
     }
 
     @ViewBuilder
-    private var tabView: some View {
+    private var figureTabView: some View {
+        TabView {
+            FigureTabContentView(configuration: Constants.Tab.swiftUI)
+
+            FigureTabContentView(configuration: Constants.Tab.uiKit)
+        }
+        .observeContentSizeCategory(isEnabled: true, dynamicTypeSize: $dynamicTypeSize)
+    }
+
+    @ViewBuilder
+    private var tripTabView: some View {
         TabView {
             TripTabContentView(configuration: Constants.Tab.swiftUI) { trip in
                 SwiftUITripDetailView(trip: trip)
@@ -37,27 +47,24 @@ struct TestDynamicTypeApp: App {
             }
         }
     }
+}
+
+extension View {
 
     @ViewBuilder
-    private var text: some View {
-        let text = String(repeating: "Hello, World! ", count: 10)
-
-        VStack {
-            Text(text)
-                .font(.body)
-
-            UIKitLabel(text: text, font: .preferredFont(forTextStyle: .body))
-        }
-        .onAppear {
-            let sizeCategory = UITraitCollection.current.preferredContentSizeCategory
-            dynamicTypeSize = .init(sizeCategory)
-        }
-        .onChange(of: dynamicTypeSize) { _, _ in
-            printFont()
-        }
-        .onReceive(publisher) { notification in
-            let sizeCategory = notification.userInfo![UIContentSizeCategory.newValueUserInfoKey]! as! UIContentSizeCategory
-            dynamicTypeSize = .init(sizeCategory)
+    fileprivate func observeContentSizeCategory(isEnabled: Bool, dynamicTypeSize: Binding<DynamicTypeSize?>) -> some View {
+        if isEnabled {
+            onAppear {
+                let sizeCategory = UITraitCollection.current.preferredContentSizeCategory
+                dynamicTypeSize.wrappedValue = .init(sizeCategory)
+            }
+            .onChange(of: dynamicTypeSize.wrappedValue) { _, _ in
+                printFont(dynamicTypeSize: dynamicTypeSize.wrappedValue!)
+            }
+            .onReceive(publisher) { notification in
+                let sizeCategory = notification.userInfo![UIContentSizeCategory.newValueUserInfoKey]! as! UIContentSizeCategory
+                dynamicTypeSize.wrappedValue = .init(sizeCategory)
+            }
         }
     }
 
@@ -65,8 +72,8 @@ struct TestDynamicTypeApp: App {
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
     }
 
-    private func printFont() {
-        dump(dynamicTypeSize!)
+    private func printFont(dynamicTypeSize: DynamicTypeSize) {
+        dump(dynamicTypeSize)
 
         print("SwiftUI")
 
@@ -78,6 +85,23 @@ struct TestDynamicTypeApp: App {
 
         for font in Constants.Font.uiKit {
             print(font)
+        }
+    }
+
+    @ViewBuilder
+    func debugBorder(isEnabled: Bool, color: Color = .red) -> some View {
+        if isEnabled {
+            border(color, width: 1)
+        }
+    }
+}
+
+extension UIView {
+
+    func debugBorder(isEnabled: Bool, color: UIColor = .red) {
+        if isEnabled {
+            layer.borderColor = color.cgColor
+            layer.borderWidth = 1
         }
     }
 }
