@@ -12,6 +12,7 @@ enum Example: String, CaseIterable, Hashable, Identifiable, RawRepresentable {
     typealias ID = Self
 
     case scaledText = "Scaled Text"
+    case dynamicLayouts = "Dynamic Layouts"
 
     var id: ID {
         self
@@ -21,6 +22,8 @@ enum Example: String, CaseIterable, Hashable, Identifiable, RawRepresentable {
         switch self {
         case .scaledText:
             return "textformat.size"
+        case .dynamicLayouts:
+            return "square.resize"
         }
     }
 }

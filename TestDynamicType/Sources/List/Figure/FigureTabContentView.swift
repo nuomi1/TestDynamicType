@@ -41,6 +41,8 @@ struct FigureTabContentView: View {
         switch example {
         case .scaledText:
             scaledTextView
+        case .dynamicLayouts:
+            dynamicLayoutsView
         }
     }
 
@@ -55,6 +57,27 @@ struct FigureTabContentView: View {
             AnyUIRepresentableViewController(configuration: .init(
                 makeUIViewController: { _ in
                     FigureScaledTextViewController(text: text)
+                },
+                updateUIViewController: { _, _ in
+                    // no-op
+                }
+            ))
+        default:
+            fatalError()
+        }
+    }
+
+    @ViewBuilder
+    private var dynamicLayoutsView: some View {
+        let figures = Figure.allCases
+
+        switch configuration {
+        case Constants.Tab.swiftUI:
+            FigureDynamicLayoutsView(figures: figures)
+        case Constants.Tab.uiKit:
+            AnyUIRepresentableViewController(configuration: .init(
+                makeUIViewController: { _ in
+                    FigureDynamicLayoutsViewController(figures: figures)
                 },
                 updateUIViewController: { _, _ in
                     // no-op
