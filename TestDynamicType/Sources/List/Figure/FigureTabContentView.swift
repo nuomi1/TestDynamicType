@@ -43,6 +43,8 @@ struct FigureTabContentView: View {
             scaledTextView
         case .dynamicLayouts:
             dynamicLayoutsView
+        case .symbols:
+            symbolsView
         }
     }
 
@@ -78,6 +80,27 @@ struct FigureTabContentView: View {
             AnyUIRepresentableViewController(configuration: .init(
                 makeUIViewController: { _ in
                     FigureDynamicLayoutsViewController(figures: figures)
+                },
+                updateUIViewController: { _, _ in
+                    // no-op
+                }
+            ))
+        default:
+            fatalError()
+        }
+    }
+
+    @ViewBuilder
+    private var symbolsView: some View {
+        let figures = Figure.allCases
+
+        switch configuration {
+        case Constants.Tab.swiftUI:
+            FigureSymbolsView(figures: figures)
+        case Constants.Tab.uiKit:
+            AnyUIRepresentableViewController(configuration: .init(
+                makeUIViewController: { _ in
+                    FigureSymbolsViewController(figures: figures)
                 },
                 updateUIViewController: { _, _ in
                     // no-op
