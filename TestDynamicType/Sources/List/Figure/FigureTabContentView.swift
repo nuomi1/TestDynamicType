@@ -45,6 +45,8 @@ struct FigureTabContentView: View {
             dynamicLayoutsView
         case .symbols:
             symbolsView
+        case .largeContentViewer:
+            largeContentViewerView
         }
     }
 
@@ -101,6 +103,27 @@ struct FigureTabContentView: View {
             AnyUIRepresentableViewController(configuration: .init(
                 makeUIViewController: { _ in
                     FigureSymbolsViewController(figures: figures)
+                },
+                updateUIViewController: { _, _ in
+                    // no-op
+                }
+            ))
+        default:
+            fatalError()
+        }
+    }
+
+    @ViewBuilder
+    private var largeContentViewerView: some View {
+        let figures = Figure.allCases
+
+        switch configuration {
+        case Constants.Tab.swiftUI:
+            FigureLargeContentViewerView(figures: figures)
+        case Constants.Tab.uiKit:
+            AnyUIRepresentableViewController(configuration: .init(
+                makeUIViewController: { _ in
+                    FigureLargeContentViewerViewController(figures: figures)
                 },
                 updateUIViewController: { _, _ in
                     // no-op

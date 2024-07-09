@@ -14,6 +14,7 @@ enum Example: String, CaseIterable, Hashable, Identifiable, RawRepresentable {
     case scaledText = "Scaled Text"
     case dynamicLayouts = "Dynamic Layouts"
     case symbols = "Symbols"
+    case largeContentViewer = "Large Content Viewer"
 
     var id: ID {
         self
@@ -27,6 +28,8 @@ enum Example: String, CaseIterable, Hashable, Identifiable, RawRepresentable {
             return "square.resize"
         case .symbols:
             return "text.badge.star"
+        case .largeContentViewer:
+            return "plus.magnifyingglass"
         }
     }
 }
